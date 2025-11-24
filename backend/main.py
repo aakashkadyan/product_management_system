@@ -20,18 +20,22 @@ import os
 
 # PostgreSQL credentials
 POSTGRES_USER = "aakash"
-POSTGRES_PASSWORD = ""  # Using peer authentication (no password needed)
+POSTGRES_PASSWORD = "root%40123"   # encoded password
 POSTGRES_HOST = "localhost"
 POSTGRES_PORT = "5432"
 POSTGRES_DB = "products"
 
-# Build connection string - no password needed for peer authentication
-SQLALCHEMY_DATABASE_URL = f"postgresql://{POSTGRES_USER}@/{POSTGRES_DB}"
+# Correct connection string
+SQLALCHEMY_DATABASE_URL = (
+    f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
+    f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+)
+
 print(f"Connecting to PostgreSQL: {POSTGRES_USER}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}")
+
 engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-
 # Database Model - using your existing table name
 class Product(Base):
     __tablename__ = "product_items"
