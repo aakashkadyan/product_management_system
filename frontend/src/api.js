@@ -1,4 +1,5 @@
-const API_BASE_URL = 'http://localhost:8001/api';
+// Use environment variable or default to EC2 IP
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://16.171.182.225:8001/api';
 
 export const uploadCSV = async (file, onProgress) => {
   console.log('uploadCSV called with XMLHttpRequest version');

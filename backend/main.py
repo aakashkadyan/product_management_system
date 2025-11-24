@@ -81,10 +81,17 @@ class ProductListResponse(BaseModel):
 # FastAPI app
 app = FastAPI()
 
-# CORS middleware
+# CORS middleware - Allow EC2 IP and localhost for development
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173", "http://localhost:5174"],
+    allow_origins=[
+        "http://localhost:3000", 
+        "http://localhost:5173", 
+        "http://localhost:5174",
+        "http://16.171.182.225",
+        "http://16.171.182.225:5173",
+        "http://16.171.182.225:5174",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
