@@ -11,16 +11,16 @@ const getApiBaseUrl = () => {
   
   // If accessing via EC2 IP, use that IP for API
   if (hostname === '16.171.182.225' || hostname.includes('16.171.182.225')) {
-    return `${protocol}//16.171.182.225:8001/api`;
+    return `${protocol}//16.171.182.225:8000/api`;
   }
   
   // For localhost, use localhost
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return 'http://localhost:8001/api';
+    return 'http://localhost:8000/api';
   }
   
   // Default fallback to EC2 IP
-  return 'http://16.171.182.225:8001/api';
+  return 'http://16.171.182.225:8000/api';
 };
 
 const API_BASE_URL = getApiBaseUrl();

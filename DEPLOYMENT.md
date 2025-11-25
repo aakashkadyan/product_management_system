@@ -2,7 +2,7 @@
 
 ## Current Deployment
 - **EC2 IP**: http://16.171.182.225
-- **Backend Port**: 8001
+- **Backend Port**: 8000
 - **Frontend Port**: 5173 (default Vite dev) or 80 (production build)
 
 ## Backend Setup on EC2
@@ -35,7 +35,7 @@ pip install -r requirements.txt
 4. **Run the backend** (with public access):
 ```bash
 # For development/testing
-uvicorn main:app --host 0.0.0.0 --port 8001
+uvicorn main:app --host 0.0.0.0 --port 8000
 
 # For production (using systemd service)
 sudo nano /etc/systemd/system/fulfil-backend.service
@@ -52,7 +52,7 @@ Type=simple
 User=ubuntu
 WorkingDirectory=/home/ubuntu/fulfil/backend
 Environment="PATH=/home/ubuntu/fulfil/backend/venv/bin"
-ExecStart=/home/ubuntu/fulfil/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8001
+ExecStart=/home/ubuntu/fulfil/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
 Restart=always
 
 [Install]
@@ -102,7 +102,7 @@ server {
 
     # Proxy API requests to backend
     location /api {
-        proxy_pass http://localhost:8001;
+        proxy_pass http://localhost:8000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -131,7 +131,7 @@ npm run dev -- --host 0.0.0.0 --port 5173
 Make sure your EC2 instance's security group allows:
 - **Port 22**: SSH (your IP only)
 - **Port 80**: HTTP (0.0.0.0/0)
-- **Port 8001**: Backend API (0.0.0.0/0)
+- **Port 8000**: Backend API (0.0.0.0/0)
 - **Port 5173**: Vite dev server (0.0.0.0/0) - only if using dev mode
 
 ## Updating the Code
@@ -166,11 +166,11 @@ sudo tail -f /var/log/nginx/error.log
 
 3. **Check if ports are open**:
 ```bash
-sudo netstat -tulpn | grep -E ':(80|8001|5173)'
+sudo netstat -tulpn | grep -E ':(80|8000|5173)'
 ```
 
 4. **Test backend directly**:
 ```bash
-curl http://localhost:8001/
+curl http://localhost:8000/
 ```
 

@@ -70,10 +70,10 @@ pip install -r requirements.txt
 
 4. Run the server:
 ```bash
-uvicorn main:app --reload --port 8001
+uvicorn main:app --reload --port 8000
 ```
 
-The API will be available at `http://localhost:8001`
+The API will be available at `http://localhost:8000`
 
 ### Frontend Setup
 
