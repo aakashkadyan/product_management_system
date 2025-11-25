@@ -1,5 +1,32 @@
-// Use environment variable or default to EC2 IP
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://16.171.182.225:8001/api';
+// Use environment variable or dynamically determine API URL based on current hostname
+const getApiBaseUrl = () => {
+  // If environment variable is set, use it
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  
+  // Otherwise, determine based on current hostname
+  const hostname = window.location.hostname;
+  const protocol = window.location.protocol;
+  
+  // If accessing via EC2 IP, use that IP for API
+  if (hostname === '16.171.182.225' || hostname.includes('16.171.182.225')) {
+    return `${protocol}//16.171.182.225:8001/api`;
+  }
+  
+  // For localhost, use localhost
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:8001/api';
+  }
+  
+  // Default fallback to EC2 IP
+  return 'http://16.171.182.225:8001/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
+
+// Debug log to help troubleshoot
+console.log('API_BASE_URL resolved to:', API_BASE_URL, 'from hostname:', window.location.hostname);
 
 export const uploadCSV = async (file, onProgress) => {
   console.log('uploadCSV called with XMLHttpRequest version');
